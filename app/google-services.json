@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "580393209214",
+    "project_id": "testoutfit-23e9c",
+    "storage_bucket": "testoutfit-23e9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580393209214:android:81fc990c63fe8120c2772f",
+        "android_client_info": {
+          "package_name": "com.yohzhiying.testposeestimation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580393209214-cr71rd3qmhn6st5nugmol37rc2ue6n4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yohzhiying.testposeestimation",
+            "certificate_hash": "91c57eb481edd410b3784da0435557d2ee41c1c6"
+          }
+        },
+        {
+          "client_id": "580393209214-ncu5en3obc55rhsmhthfmen1bfs97jt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkcKJnbVsuMwpHJJqcEjzP3iXY05zLlUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "580393209214-ncu5en3obc55rhsmhthfmen1bfs97jt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

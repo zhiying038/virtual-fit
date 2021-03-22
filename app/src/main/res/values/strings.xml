@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Fit2Shop</string>
+    <string name="powered_by">Powered By Yoh Zhi Ying</string>
+
+    <!--  On Boarding Screen  -->
+    <string name="shop_with_confidence">Shop Confidently</string>
+    <string name="onboarding1_quote">No more returning 19 out of 20 purchases</string>
+    <string name="accurate_virtual_avatars">Accurate Avatar</string>
+    <string name="onboarding2_quote">It only take few minutes to view the outfit on you</string>
+    <string name="shopping_just_easier">Shopping Is Easier</string>
+    <string name="onboarding3_quote">Try any size, style and cutting from your phone</string>
+
+    <!--Buttons-->
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="let_get_started">Lets Get Started</string>
+
+    <!--  AuthStartUp Screen  -->
+    <string name="shopping_experience">New Shopping Experience</string>
+    <string name="startup_subtitle">Spend less time waiting for fitting room</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="enter_password">Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="create_acc">Create\nAccount</string>
+    <string name="enter_full_name">Full Name</string>
+    <string name="enter_username">Username</string>
+    <string name="enter_email">Email</string>
+    <string name="code">Co\nde</string>
+    <string name="otp_verification_text">Verification</string>
+    <string name="otp_description_text">Enter one time password sent on\n+60126636092</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="new_credentials">New\nCredentials</string>
+    <string name="credentials_detail">Your identity has been verified!\nSet your new password</string>
+    <string name="forget_password_detail">Provide your account\'s email for which you want to reset your password!</string>
+    <string name="password_updated">Password\nUpdated</string>
+    <string name="password_updated_success_message">Your password has been updated!</string>
+
+    <!-- Profile Screen -->
+    <string name="fullname_hint">Full Name</string>
+    <string name="username_hint">Username</string>
+    <string name="phone_hint">Phone Number</string>
+    <string name="update">Update</string>
+
+    <!-- Dashboard Screen -->
+    <string name="no_outfit">No Outfit Found</string>
+    <string name="try_outfit">Try On Any Outfits</string>
+
+    <!-- Menu List -->
+    <string name="dashboard">HOME</string>
+    <string name="outfit">ADD OUTFIT</string>
+    <string name="profile">Profile</string>
+    <string name="logout_nav">Logout</string>
+    <string name="share">Share</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="favourite">FAVOURITES</string>
+
+    <!-- Add Outfit Screen -->
+    <string name="add_outfit_title">Add Outfit</string>
+    <string name="insert_outfit">Add</string>
+    <string name="choose_outfit">Select Outfit</string>
+    <string name="outfit_name">Enter Outfit Name</string>
+    <string name="category">Category:</string>
+    <string name="sensitivity">Sensitivity Level</string>
+    <string-array name="outfit_categories">
+        <item>T-Shirts</item>
+        <item>Trousers</item>
+    </string-array>
+
+</resources>
