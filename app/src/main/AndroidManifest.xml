@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".OnboardingActivity" />
-        <activity android:name=".FavouriteActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,20 +30,48 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddOutfitActivity" android:screenOrientation="portrait" />
-        <activity android:name=".RateUsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ProfileActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ForgetPasswordSuccessMessageActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SetNewPasswordActivity" android:screenOrientation="portrait" />
-        <activity android:name=".VerifyOtpActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SignUp3rdClassActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SignUp2ndClassActivity" android:screenOrientation="portrait" />
-        <activity android:name=".AuthStartUpActivity" android:screenOrientation="portrait" />
-        <activity android:name=".UserDashboardActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SignUpActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ForgetPasswordActivity" android:screenOrientation="portrait" />
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait" />
-        <activity android:name=".CameraActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddOutfitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RateUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ForgetPasswordSuccessMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetNewPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VerifyOtpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUp3rdClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUp2ndClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AuthStartUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserDashboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ForgetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CameraActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

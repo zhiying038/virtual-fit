@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -60,6 +62,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     NavigationView navigationView;
     Button addOutfitBtn, chooseOutfitBtn;
     ImageView outfitArea, menuIcon;
+    TextView sensitive;
     Spinner spinner;
     TextInputLayout outfitNameField, outfitDescriptionField;
     String categorySelected, outfitUrl, userPhone;
@@ -89,6 +92,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
         drawerLayout = findViewById(R.id.outfit_drawer);
         navigationView = findViewById(R.id.navigation_view);
         outfitDescriptionField = findViewById(R.id.outfit_description);
+        sensitive = findViewById(R.id.sensitive_text);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.outfit_categories,
                 android.R.layout.simple_spinner_item);
@@ -127,6 +131,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
                 outfitArea.setVisibility(View.VISIBLE);
                 addOutfitBtn.setVisibility(View.VISIBLE);
                 sensitivityBar.setVisibility(View.VISIBLE);
+                sensitive.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -173,9 +178,9 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void addOutfit() {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Add Outfit");
-        progressDialog.show();
+//        final ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Add Outfit");
+//        progressDialog.show();
 
         userPhone = user.getPhoneNumber();
 
@@ -227,7 +232,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
                                 Outfit addOutfitHelper = new Outfit(outfitCategory, outfitName, outfitUrl, outfitDescription);
                                 reference.child(userPhone).push().setValue(addOutfitHelper);
 
-                                progressDialog.dismiss();
+//                                progressDialog.dismiss();
                                 startActivity(new Intent(AddOutfitActivity.this, UserDashboardActivity.class));
                             }
                         }
@@ -263,14 +268,30 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
 
     private boolean validateFields() {
         String _outfitName = Objects.requireNonNull(outfitNameField.getEditText()).getText().toString().trim();
+        String _outfitDescription = outfitDescriptionField.getEditText().getText().toString().trim();
+        boolean _outfitImage = hasNullOrEmptyDrawable(outfitArea);
 
         if (_outfitName.isEmpty()) {
             outfitNameField.setError("Name cannot be empty!");
             return false;
+        } else if (!_outfitImage) {
+            Toast.makeText(AddOutfitActivity.this, "Please upload an outfit image!", Toast.LENGTH_LONG).show();
+            return false;
+        } else if (_outfitDescription.isEmpty()) {
+            outfitDescriptionField.setError("Description cannot be empty!");
+            return false;
         } else {
             outfitNameField.setError(null);
             outfitNameField.setErrorEnabled(false);
+            outfitDescriptionField.setError(null);
+            outfitDescriptionField.setErrorEnabled(false);
             return true;
         }
+    }
+
+    private boolean hasNullOrEmptyDrawable(ImageView imageView) {
+        Drawable drawable = imageView.getDrawable();
+        BitmapDrawable bitmapDrawable = drawable instanceof BitmapDrawable ? (BitmapDrawable) drawable : null;
+        return bitmapDrawable == null || bitmapDrawable.getBitmap() == null;
     }
 }

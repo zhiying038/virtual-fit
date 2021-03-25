@@ -5,17 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
 
 import java.util.Calendar;
 
 public class CameraActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-
-    Calendar calendar;
-
-    int time1,time2;
 
     private boolean checkedPermissions=false;
     private int PERMISSIONS_REQUEST_CODE=1;
@@ -57,5 +59,10 @@ public class CameraActivity extends AppCompatActivity implements ActivityCompat.
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,Camera2BasicFragment.newInstance()).commit();
+    }
+
+    public void backToOutfit(View view) {
+        startActivity(new Intent(getApplicationContext(), UserDashboardActivity.class));
+        finish();
     }
 }

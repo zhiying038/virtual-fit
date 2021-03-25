@@ -134,6 +134,7 @@
             android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/sensitive_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -142,6 +143,7 @@
             android:text="@string/sensitivity"
             android:textSize="18sp"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:layout_marginBottom="5dp"/>
 
         <com.google.android.material.slider.Slider
