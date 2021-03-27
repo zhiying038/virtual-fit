@@ -48,11 +48,20 @@
             android:fontFamily="sans-serif-condensed"
             android:textSize="28sp" />
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_outfit"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:padding="5dp"
+            android:layout_margin="20dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_outfits"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp" />
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 
