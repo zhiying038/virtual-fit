@@ -178,9 +178,9 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void addOutfit() {
-//        final ProgressDialog progressDialog = new ProgressDialog(this);
-//        progressDialog.setMessage("Add Outfit");
-//        progressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Add Outfit");
+        progressDialog.show();
 
         userPhone = user.getPhoneNumber();
 
@@ -232,7 +232,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
                                 Outfit addOutfitHelper = new Outfit(outfitCategory, outfitName, outfitUrl, outfitDescription);
                                 reference.child(userPhone).push().setValue(addOutfitHelper);
 
-//                                progressDialog.dismiss();
+                                progressDialog.dismiss();
                                 startActivity(new Intent(AddOutfitActivity.this, UserDashboardActivity.class));
                             }
                         }
@@ -274,9 +274,9 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
         if (_outfitName.isEmpty()) {
             outfitNameField.setError("Name cannot be empty!");
             return false;
-        } else if (!_outfitImage) {
-            Toast.makeText(AddOutfitActivity.this, "Please upload an outfit image!", Toast.LENGTH_LONG).show();
-            return false;
+//        } else if (!_outfitImage) {
+//            Toast.makeText(AddOutfitActivity.this, "Please upload an outfit image!", Toast.LENGTH_LONG).show();
+//            return false;
         } else if (_outfitDescription.isEmpty()) {
             outfitDescriptionField.setError("Description cannot be empty!");
             return false;

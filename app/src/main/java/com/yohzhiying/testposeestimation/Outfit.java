@@ -1,9 +1,11 @@
 package com.yohzhiying.testposeestimation;
 
+import android.graphics.Bitmap;
+
 public class Outfit {
 
     String name, category, imageUrl, description;
-    byte[] image;
+    Bitmap image;
 
     public Outfit() {}
 
@@ -14,7 +16,7 @@ public class Outfit {
         this.description = description;
     }
 
-    public Outfit(String category, String name, byte[] image) {
+    public Outfit(String category, String name, Bitmap image) {
         this.name = name;
         this.category = category;
         this.image = image;
@@ -32,7 +34,7 @@ public class Outfit {
         return imageUrl;
     }
 
-    public byte[] getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
@@ -56,7 +58,7 @@ public class Outfit {
         this.description = description;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
 }
