@@ -79,8 +79,7 @@ public class DrawView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setStrokeWidth(dipToFloat(2));
 
-        byte[] outfit_byte_array = currentOutfit.getImage();
-        Bitmap outfit_bmp = BitmapFactory.decodeByteArray(outfit_byte_array, 0, outfit_byte_array.length);
+        Bitmap outfit_bmp = currentOutfit.getImage();
 
         //Coordinates to fit "T-Shirts" outfit
         int top_left = (int) (mDrawPoint.get(2).x-60); //The X coordinate of the left side of the rectangle
@@ -111,22 +110,14 @@ public class DrawView extends View {
         Rect rect_short = new Rect(short_left,short_top,short_right,short_bottom);
 
         Rect dst_rect = rect_top;
-        if(currentOutfit.getOutfitCategory().equals("top")){dst_rect = rect_top;}
+        if(currentOutfit.getOutfitCategory().equals("T-Shirts")){dst_rect = rect_top;}
         if(currentOutfit.getOutfitCategory().equals("long_wears")){dst_rect = rect_long;}
-        if(currentOutfit.getOutfitCategory().equals("trousers")){dst_rect = rect_trousers;}
+        if(currentOutfit.getOutfitCategory().equals("Trousers")){dst_rect = rect_trousers;}
         if(currentOutfit.getOutfitCategory().equals("shorts_n_skirts")){dst_rect = rect_short;}
 
         canvas.drawBitmap(outfit_bmp, null, dst_rect, null);
 
         Log.d(TAG, " points has been drawed");
-    }
-
-    // DUP doesn't have
-    public void setPointArray(ArrayList<PointF> points){
-        mDrawPoint.clear();
-        for(int i=0;i<points.size();i++){
-            mDrawPoint.add(points.get(i));
-        }
     }
 
     @Override
