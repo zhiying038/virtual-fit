@@ -246,6 +246,11 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_add_outfit);
+        drawerLayout.setDrawerElevation(0);
+
         switch (item.getItemId()) {
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
@@ -264,14 +269,10 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     private boolean validateFields() {
         String _outfitName = Objects.requireNonNull(outfitNameField.getEditText()).getText().toString().trim();
         String _outfitDescription = outfitDescriptionField.getEditText().getText().toString().trim();
-        boolean _outfitImage = hasNullOrEmptyDrawable(outfitArea);
 
         if (_outfitName.isEmpty()) {
             outfitNameField.setError("Name cannot be empty!");
             return false;
-//        } else if (!_outfitImage) {
-//            Toast.makeText(AddOutfitActivity.this, "Please upload an outfit image!", Toast.LENGTH_LONG).show();
-//            return false;
         } else if (_outfitDescription.isEmpty()) {
             outfitDescriptionField.setError("Description cannot be empty!");
             return false;
@@ -282,11 +283,5 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
             outfitDescriptionField.setErrorEnabled(false);
             return true;
         }
-    }
-
-    private boolean hasNullOrEmptyDrawable(ImageView imageView) {
-        Drawable drawable = imageView.getDrawable();
-        BitmapDrawable bitmapDrawable = drawable instanceof BitmapDrawable ? (BitmapDrawable) drawable : null;
-        return bitmapDrawable == null || bitmapDrawable.getBitmap() == null;
     }
 }
