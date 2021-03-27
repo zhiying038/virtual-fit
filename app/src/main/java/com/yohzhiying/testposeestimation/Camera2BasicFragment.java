@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -16,10 +17,12 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,13 +37,20 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,7 +73,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
 
     private final Object lock = new Object();
     private boolean runClassifier = false;
-
     private boolean checkedPermissions = false;
 
     private AutoFitTextureView textureView = null;
@@ -88,28 +97,27 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
     private TextureView.SurfaceTextureListener surfaceTextureListener = new TextureView.SurfaceTextureListener() {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
+        public void onSurfaceTextureAvailable(@NonNull SurfaceTexture texture, int width, int height) {
             try {
                 openCamera(width, height);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "Camera has opened");
         }
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {
+        public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture texture, int width, int height) {
             configureTransform(width, height);
         }
 
         @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture texture) {
+        public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture texture) {
             return true;
         }
 
         @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture texture) { }
+        public void onSurfaceTextureUpdated(@NonNull SurfaceTexture texture) { }
     };
 
     /**
@@ -138,14 +146,10 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
             currentCameraDevice.close();
             cameraDevice = null;
             Activity activity = getActivity();
+            assert activity != null;
             activity.finish();
         }
     };
-
-    // DUP No
-    public Camera2BasicFragment() {
-        // Required empty public constructor
-    }
 
     /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to capture.
@@ -155,13 +159,15 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         public void onCaptureProgressed(
                 @NonNull CameraCaptureSession session,
                 @NonNull CaptureRequest request,
-                @NonNull CaptureResult partialResult) { }
+                @NonNull CaptureResult partialResult) {
+        }
 
         @Override
         public void onCaptureCompleted(
                 @NonNull CameraCaptureSession session,
                 @NonNull CaptureRequest request,
-                @NonNull TotalCaptureResult result) { }
+                @NonNull TotalCaptureResult result) {
+        }
     };
 
     /**
@@ -297,12 +303,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         super.onDestroy();
     }
 
-    /**
-     * Sets up member variables related to camera.
-     *
-     * @param width  The width of available size for camera preview
-     * @param height The height of available size for camera preview
-     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setUpCameraOutputs(int width, int height) {
         Activity activity = getActivity();
@@ -406,9 +406,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         return new String[]{"android.permission.CAMERA","android.permission.WRITE_EXTERNAL_STORAGE"};
     }
 
-    /**
-     * Opens the camera specified by {@link Camera2BasicFragment#cameraId}.
-     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("MissingPermission")
     private void openCamera(int width, int height) throws CameraAccessException {
@@ -448,9 +445,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    /**
-     * Closes the current {@link CameraDevice}.
-     */
     private void closeCamera() {
         try {
             cameraOpenCloseLock.acquire();
@@ -473,9 +467,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         }
     }
 
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
     private void startBackgroundThread() {
         backgroundThread = new HandlerThread(HANDLE_THREAD_NAME);
         backgroundThread.start();
@@ -487,9 +478,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         Log.d(TAG, "Background thread has started. . .");
     }
 
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
     private void stopBackgroundThread() {
         backgroundThread.quitSafely();
         try {
@@ -505,9 +493,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         }
     }
 
-    /**
-     * Takes photos and classify them periodically.
-     */
     private Runnable periodicClassify = new Runnable() {
         @Override
         public void run() {
@@ -520,9 +505,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         }
     };
 
-    /**
-     * Creates a new {@link CameraCaptureSession} for camera preview.
-     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createCameraPreviewSession() {
         try {
@@ -539,9 +521,7 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
             previewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
-            cameraDevice.createCaptureSession(
-                    Arrays.asList(surface),
-                    new CameraCaptureSession.StateCallback() {
+            cameraDevice.createCaptureSession(Arrays.asList(surface, imageReader.getSurface()), new CameraCaptureSession.StateCallback() {
                         @Override
                         public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                             // The camera is already closed
@@ -605,9 +585,6 @@ public class Camera2BasicFragment extends Fragment implements ActivityCompat.OnR
         textureView.setTransform(matrix);
     }
 
-    /**
-     * Classifies a frame from the preview stream.
-     */
     public void classifyFrame() {
         if (classifier == null || getActivity() == null || cameraDevice == null) {
             Log.d(TAG, "Null elements");
