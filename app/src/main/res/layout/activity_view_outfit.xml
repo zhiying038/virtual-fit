@@ -20,7 +20,19 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:onClick="backHome"
+            android:padding="15dp"
             android:src="@drawable/general_back_icon" />
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:padding="15dp"
+            android:src="@drawable/delete_icon"
+            android:clickable="true"
+            android:onClick="onDeleteOutfit"
+            app:tint="#FF0000" />
 
     </RelativeLayout>
 
