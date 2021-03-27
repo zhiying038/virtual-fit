@@ -98,7 +98,7 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
 
     private void getOutfitByPhone() {
         if (reference != null) {
-            reference.orderByChild("outfitCategory").addValueEventListener(new ValueEventListener() {
+            reference.orderByChild("outfitName").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {

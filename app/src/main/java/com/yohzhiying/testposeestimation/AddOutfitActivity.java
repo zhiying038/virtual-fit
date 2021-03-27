@@ -155,7 +155,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     private void navigationDrawer() {
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_home);
+        navigationView.setCheckedItem(R.id.nav_add_outfit);
         drawerLayout.setDrawerElevation(0);
 
         menuIcon.setOnClickListener(new View.OnClickListener() {
@@ -246,11 +246,6 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        navigationView.bringToFront();
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_add_outfit);
-        drawerLayout.setDrawerElevation(0);
-
         switch (item.getItemId()) {
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
