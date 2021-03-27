@@ -250,11 +250,6 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(AddOutfitActivity.this, "You've signed out!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), AuthStartUpActivity.class));
-                break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(getApplicationContext(), RateUsActivity.class));
                 break;

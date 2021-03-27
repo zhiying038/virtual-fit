@@ -113,11 +113,6 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(UserDashboardActivity.this, "You've signed out!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), AuthStartUpActivity.class));
-                break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(getApplicationContext(), RateUsActivity.class));
                 finish();

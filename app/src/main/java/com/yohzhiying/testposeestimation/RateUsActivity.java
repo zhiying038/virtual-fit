@@ -103,11 +103,6 @@ public class RateUsActivity extends AppCompatActivity implements NavigationView.
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(RateUsActivity.this, "You've signed out!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), AuthStartUpActivity.class));
-                break;
             case R.id.nav_add_outfit:
                 startActivity(new Intent(getApplicationContext(), AddOutfitActivity.class));
                 break;

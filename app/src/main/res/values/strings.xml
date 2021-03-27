@@ -46,17 +46,14 @@
     <string name="update">Update</string>
 
     <!-- Dashboard Screen -->
-    <string name="no_outfit">No Outfit Found</string>
-    <string name="try_outfit">Try On Any Outfits</string>
+    <string name="no_outfit">No Outfits Found</string>
+    <string name="try_outfit">Home</string>
 
     <!-- Menu List -->
     <string name="dashboard">HOME</string>
     <string name="outfit">ADD OUTFIT</string>
-    <string name="profile">Profile</string>
-    <string name="logout_nav">Logout</string>
-    <string name="share">Share</string>
-    <string name="rate_us">Rate Us</string>
-    <string name="favourite">FAVOURITES</string>
+    <string name="profile">PROFILE</string>
+    <string name="rate_us">RATE</string>
 
     <!-- Add Outfit Screen -->
     <string name="add_outfit_title">Add Outfit</string>

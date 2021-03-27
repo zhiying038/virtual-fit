@@ -10,32 +10,14 @@
             android:id="@+id/nav_add_outfit"
             android:title="@string/outfit"
             android:icon="@drawable/add_outfit_icon" />
+        <item
+            android:id="@+id/nav_profile"
+            android:title="@string/profile"
+            android:icon="@drawable/field_username_icon"/>
+        <item
+            android:id="@+id/nav_rate_us"
+            android:title="@string/rate_us"
+            android:icon="@drawable/menu_rate_us_icon"/>
     </group>
-
-    <item android:title="@string/profile">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_profile"
-                    android:title="@string/profile"
-                    android:icon="@drawable/field_username_icon"/>
-                <item
-                    android:id="@+id/nav_logout"
-                    android:title="@string/logout_nav"
-                    android:icon="@drawable/field_password_icon"/>
-            </group>
-        </menu>
-    </item>
-
-    <item android:title="@string/share">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_rate_us"
-                    android:title="@string/rate_us"
-                    android:icon="@drawable/menu_rate_us_icon"/>
-            </group>
-        </menu>
-    </item>
 
 </menu>
