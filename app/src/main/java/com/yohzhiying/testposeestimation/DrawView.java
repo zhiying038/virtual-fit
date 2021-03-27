@@ -2,13 +2,11 @@ package com.yohzhiying.testposeestimation;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -71,7 +69,6 @@ public class DrawView extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mDrawPoint.isEmpty()) {
-            Log.d(TAG, " mDrawPoint is NULL !!");
             return;
         }
 
@@ -81,7 +78,7 @@ public class DrawView extends View {
 
         Bitmap outfit_bmp = currentOutfit.getImage();
 
-        //Coordinates to fit "T-Shirts" outfit
+        //Coordinates to fit "Top" outfit
         int top_left = (int) (mDrawPoint.get(2).x-60); //The X coordinate of the left side of the rectangle
         int top_top  = (int) (mDrawPoint.get(1).y-10); //The Y coordinate of the top of the rectangle
         int top_right = (int) (mDrawPoint.get(5).x+60); //The X coordinate of the right side of the rectangle
@@ -110,14 +107,12 @@ public class DrawView extends View {
         Rect rect_short = new Rect(short_left,short_top,short_right,short_bottom);
 
         Rect dst_rect = rect_top;
-        if(currentOutfit.getOutfitCategory().equals("T-Shirts")){dst_rect = rect_top;}
-        if(currentOutfit.getOutfitCategory().equals("long_wears")){dst_rect = rect_long;}
+        if(currentOutfit.getOutfitCategory().equals("Top")){dst_rect = rect_top;}
+        if(currentOutfit.getOutfitCategory().equals("Long Wears")){dst_rect = rect_long;}
         if(currentOutfit.getOutfitCategory().equals("Trousers")){dst_rect = rect_trousers;}
-        if(currentOutfit.getOutfitCategory().equals("shorts_n_skirts")){dst_rect = rect_short;}
+        if(currentOutfit.getOutfitCategory().equals("Shorts & Skirts")){dst_rect = rect_short;}
 
         canvas.drawBitmap(outfit_bmp, null, dst_rect, null);
-
-        Log.d(TAG, " points has been drawed");
     }
 
     @Override
@@ -142,9 +137,7 @@ public class DrawView extends View {
         try {
             mRatioX = (float) mImgWidth / mWidth;
             mRatioY = (float) mImgHeight / mHeight;
-        }
-        catch(ArithmeticException e) {
-            Log.d(TAG, " mRatioX|mRatioY Arithmetic Exception !!");
+        } catch(ArithmeticException e) {
             mRatioX =1;
             mRatioY=1;
         }

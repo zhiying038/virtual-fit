@@ -63,8 +63,10 @@
     <string name="category">Category:</string>
     <string name="sensitivity">Sensitivity Level</string>
     <string-array name="outfit_categories">
-        <item>T-Shirts</item>
+        <item>Top</item>
         <item>Trousers</item>
+        <item>Long Wears</item>
+        <item>Shorts &amp; Skirts</item>
     </string-array>
 
 </resources>
