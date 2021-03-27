@@ -2,9 +2,6 @@ package com.yohzhiying.testposeestimation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -23,7 +19,6 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
 
     Context mContext;
     List<Outfit> mOutfits;
-    Bitmap outfitBitmap = null;
 
     public OutfitAdapter(Context mContext, List<Outfit> mOutfits) {
         this.mContext = mContext;
@@ -57,37 +52,16 @@ public class OutfitAdapter extends RecyclerView.Adapter<OutfitAdapter.OutfitView
         Picasso.get().load(outfit.getOutfitUrl()).into(holder.image);
         holder.name.setText(outfit.getOutfitName());
         holder.category.setText(outfit.getOutfitCategory());
-//        holder.description.setText(outfit.getOutfitDescription());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Picasso.get().load(outfit.getOutfitUrl()).into(new Target() {
-//                    @Override
-//                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                        outfitBitmap = bitmap;
-//                    }
-//
-//                    @Override
-//                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                    }
-//                });
-//                String itemCategory = outfit.getOutfitCategory();
-//                String itemName = outfit.getOutfitName();
-//                DrawView.currentOutfit = new Outfit(itemCategory, itemName, outfitBitmap);
-//                Intent intent = new Intent(mContext, CameraActivity.class);
-                Intent intent = new Intent(mContext, ViewOutfitActivity.class);
-                intent.putExtra("itemCategory", outfit.getOutfitCategory());
-                intent.putExtra("itemName", outfit.getOutfitName());
-                intent.putExtra("itemDescription", outfit.getOutfitDescription());
-                intent.putExtra("itemUrl", outfit.getOutfitUrl());
-                mContext.startActivity(intent);
+            Intent intent = new Intent(mContext, ViewOutfitActivity.class);
+            intent.putExtra("itemCategory", outfit.getOutfitCategory());
+            intent.putExtra("itemName", outfit.getOutfitName());
+            intent.putExtra("itemDescription", outfit.getOutfitDescription());
+            intent.putExtra("itemUrl", outfit.getOutfitUrl());
+            mContext.startActivity(intent);
             }
         });
     }
