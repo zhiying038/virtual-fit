@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,8 +28,10 @@ import com.squareup.picasso.Target;
 public class ViewOutfitActivity extends AppCompatActivity {
 
     ImageView backIcon, outfitImage;
-    TextView viewOutfitName, viewOutfitDescription, viewOutfitCategory;
+    TextView viewOutfitDescription, viewOutfitCategory;
     String _category, _name, _description, _url;
+    CollapsingToolbarLayout toolbarLayout;
+
     Bitmap outfitBitmap = null;
     FirebaseUser firebaseUser = null;
 
@@ -40,11 +43,11 @@ public class ViewOutfitActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        backIcon = findViewById(R.id.view_outfit_back);
+//        backIcon = findViewById(R.id.view_outfit_back);
         outfitImage = findViewById(R.id.view_outfit_image);
         viewOutfitCategory = findViewById(R.id.view_outfit_category);
+        toolbarLayout = findViewById(R.id.collapsing_bar);
         viewOutfitDescription = findViewById(R.id.view_outfit_description);
-        viewOutfitName = findViewById(R.id.view_outfit_name);
 
         _category = getIntent().getStringExtra("itemCategory");
          _name = getIntent().getStringExtra("itemName");
@@ -53,7 +56,7 @@ public class ViewOutfitActivity extends AppCompatActivity {
 
         Picasso.get().load(_url).into(outfitImage);
         viewOutfitCategory.setText(_category);
-        viewOutfitName.setText(_name);
+        toolbarLayout.setTitle(_name);
         viewOutfitDescription.setText(_description);
     }
 

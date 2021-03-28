@@ -107,10 +107,21 @@ public class DrawView extends View {
         Rect rect_short = new Rect(short_left,short_top,short_right,short_bottom);
 
         Rect dst_rect = rect_top;
-        if(currentOutfit.getOutfitCategory().equals("Top")){dst_rect = rect_top;}
-        if(currentOutfit.getOutfitCategory().equals("Long Wears")){dst_rect = rect_long;}
-        if(currentOutfit.getOutfitCategory().equals("Trousers")){dst_rect = rect_trousers;}
-        if(currentOutfit.getOutfitCategory().equals("Shorts & Skirts")){dst_rect = rect_short;}
+        if(currentOutfit.getOutfitCategory().equals("Top")) {
+            dst_rect = rect_top;
+        }
+
+        if(currentOutfit.getOutfitCategory().equals("Long Wears")) {
+            dst_rect = rect_long;
+        }
+
+        if(currentOutfit.getOutfitCategory().equals("Trousers")) {
+            dst_rect = rect_trousers;
+        }
+
+        if(currentOutfit.getOutfitCategory().equals("Shorts & Skirts")) {
+            dst_rect = rect_short;
+        }
 
         canvas.drawBitmap(outfit_bmp, null, dst_rect, null);
     }
