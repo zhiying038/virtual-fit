@@ -95,7 +95,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/outfit_description_editText"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
