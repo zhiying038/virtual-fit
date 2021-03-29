@@ -251,6 +251,12 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
             case R.id.nav_home:
                 startActivity(new Intent(getApplicationContext(), UserDashboardActivity.class));
                 break;
+            case R.id.nav_logout: {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+                break;
+            }
         }
 
         return true;

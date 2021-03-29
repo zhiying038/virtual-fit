@@ -14,6 +14,10 @@
             android:id="@+id/nav_rate_us"
             android:title="@string/rate_us"
             android:icon="@drawable/menu_rate_us_icon"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:title="LOGOUT"
+            android:icon="@drawable/logout_icon" />
     </group>
 
 </menu>
