@@ -100,9 +100,6 @@ public class RateUsActivity extends AppCompatActivity implements NavigationView.
             case R.id.nav_home:
                 startActivity(new Intent(getApplicationContext(), UserDashboardActivity.class));
                 break;
-            case R.id.nav_profile:
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                break;
             case R.id.nav_add_outfit:
                 startActivity(new Intent(getApplicationContext(), AddOutfitActivity.class));
                 break;

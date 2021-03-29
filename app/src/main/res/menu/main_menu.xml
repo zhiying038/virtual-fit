@@ -11,10 +11,6 @@
             android:title="@string/outfit"
             android:icon="@drawable/add_outfit_icon" />
         <item
-            android:id="@+id/nav_profile"
-            android:title="@string/profile"
-            android:icon="@drawable/field_username_icon"/>
-        <item
             android:id="@+id/nav_rate_us"
             android:title="@string/rate_us"
             android:icon="@drawable/menu_rate_us_icon"/>

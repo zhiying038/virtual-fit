@@ -245,9 +245,6 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_profile:
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                break;
             case R.id.nav_rate_us:
                 startActivity(new Intent(getApplicationContext(), RateUsActivity.class));
                 break;
