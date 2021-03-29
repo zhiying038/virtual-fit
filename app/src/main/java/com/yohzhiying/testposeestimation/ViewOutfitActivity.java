@@ -27,7 +27,7 @@ import com.squareup.picasso.Target;
 
 public class ViewOutfitActivity extends AppCompatActivity {
 
-    ImageView backIcon, outfitImage;
+    ImageView outfitImage;
     TextView viewOutfitDescription, viewOutfitCategory;
     String _category, _name, _description, _url;
     CollapsingToolbarLayout toolbarLayout;
@@ -43,7 +43,6 @@ public class ViewOutfitActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-//        backIcon = findViewById(R.id.view_outfit_back);
         outfitImage = findViewById(R.id.view_outfit_image);
         viewOutfitCategory = findViewById(R.id.view_outfit_category);
         toolbarLayout = findViewById(R.id.collapsing_bar);
@@ -90,8 +89,8 @@ public class ViewOutfitActivity extends AppCompatActivity {
     }
 
     public void onDeleteOutfit(View view) {
-        String userPhone = firebaseUser.getPhoneNumber();
-        Query dataQuery = FirebaseDatabase.getInstance().getReference().child("outfits").child(userPhone).orderByChild("outfitName").equalTo(_name);
+        String userUid = firebaseUser.getUid();
+        Query dataQuery = FirebaseDatabase.getInstance().getReference().child("outfits").child(userUid).orderByChild("outfitName").equalTo(_name);
 
         dataQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
