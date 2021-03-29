@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -18,7 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,11 +34,11 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
     ImageView screenIcon;
     TextView title, description;
-    TextInputLayout phoneNumberTextField;
-    CountryCodePicker countryCodePicker;
+    TextInputLayout emailTextField;
     Button nextBtn;
     Animation animation;
     RelativeLayout progressBar;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +46,12 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // To Remove Status Bar
         setContentView(R.layout.activity_forget_password);
 
+        auth = FirebaseAuth.getInstance();
+
         screenIcon = findViewById(R.id.forget_password_icon);
         title = findViewById(R.id.forget_password_title);
         description = findViewById(R.id.forget_password_description);
-        phoneNumberTextField = findViewById(R.id.forget_password_phone_number);
-        countryCodePicker = findViewById(R.id.country_code_picker);
+        emailTextField = findViewById(R.id.forget_password_email);
         nextBtn = findViewById(R.id.forget_password_next_btn);
         progressBar = findViewById(R.id.progress_bar);
 
@@ -54,12 +59,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         screenIcon.setAnimation(animation);
         title.setAnimation(animation);
         description.setAnimation(animation);
-        phoneNumberTextField.setAnimation(animation);
-        countryCodePicker.setAnimation(animation);
+        emailTextField.setAnimation(animation);
         nextBtn.setAnimation(animation);
     }
 
-    public void verifyPhoneNumber(View view) {
+    public void resetPassword(View view) {
+        String _email = emailTextField.getEditText().getText().toString().trim();
+
         CheckInternet checkInternet = new CheckInternet();
         if (!checkInternet.isConnected(this)) {
             showCustomDialog();
@@ -67,47 +73,30 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         }
 
         //validate phone Number
-        if (!validateFields()) {
+        if (_email.isEmpty()) {
+            emailTextField.setError("Email cannot be empty");
+            emailTextField.requestFocus();
             return;
         }
-        progressBar.setVisibility(View.VISIBLE);
 
-        //Get data from fields
-        String _phoneNumber = phoneNumberTextField.getEditText().getText().toString().trim();
-        if (_phoneNumber.charAt(0) == '0') {
-            _phoneNumber = _phoneNumber.substring(1); //remove 0 at the start if entered by the user
+        if (!Patterns.EMAIL_ADDRESS.matcher(_email).matches()) {
+            emailTextField.setError("Please provide valid email");
+            emailTextField.requestFocus();
+            return;
         }
-        final String _completePhoneNumber = "+" + countryCodePicker.getFullNumber() + _phoneNumber;
 
-        //Check weather User exists or not in database
-        Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_completePhoneNumber);
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        progressBar.setVisibility(View.VISIBLE);
+        auth.sendPasswordResetEmail(_email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //If Phone Number exists then Call OTP to verify that it is his/her phone number
-                if (dataSnapshot.exists()) {
-                    phoneNumberTextField.setError(null);
-                    phoneNumberTextField.setErrorEnabled(false);
-
-                    Intent intent = new Intent(getApplicationContext(), VerifyOtpActivity.class);
-                    intent.putExtra("phoneNo", _completePhoneNumber);
-                    intent.putExtra("whatToDo","updateData");
-                    startActivity(intent);
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(ForgetPasswordActivity.this, "Check your email to reset your password!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
-
                     progressBar.setVisibility(View.GONE);
-
                 } else {
-                    progressBar.setVisibility(View.GONE);
-                    phoneNumberTextField.setError("No such user exist!");
-                    phoneNumberTextField.requestFocus();
+                    Toast.makeText(ForgetPasswordActivity.this, "Try again! Something wrong happened!", Toast.LENGTH_LONG).show();
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(ForgetPasswordActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -132,24 +121,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    private boolean validateFields() {
-        String _phoneNumber = phoneNumberTextField.getEditText().getText().toString().trim();
-        String checkspaces = "\\A\\w{1,20}\\z";
-
-        if (_phoneNumber.isEmpty()) {
-            phoneNumberTextField.setError("Phone number can not be empty");
-            phoneNumberTextField.requestFocus();
-            return false;
-        } else if (!_phoneNumber.matches(checkspaces)) {
-            phoneNumberTextField.setError("No White spaces are allowed!");
-            return false;
-        } else {
-            phoneNumberTextField.setError(null);
-            phoneNumberTextField.setErrorEnabled(false);
-            return true;
-        }
     }
 
     public void callBackScreenFromForgetPassword(View view) {

@@ -40,12 +40,6 @@
             android:name=".RateUsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ForgetPasswordSuccessMessageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SetNewPasswordActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SignUp3rdClassActivity"
             android:screenOrientation="portrait" />
         <activity
