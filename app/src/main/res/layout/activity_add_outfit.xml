@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:inputType="textMultiLine"
+                android:maxLines="3"
                 android:overScrollMode="always"
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
