@@ -49,9 +49,6 @@
             android:name=".SetNewPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".VerifyOtpActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SignUp3rdClassActivity"
             android:screenOrientation="portrait" />
         <activity
