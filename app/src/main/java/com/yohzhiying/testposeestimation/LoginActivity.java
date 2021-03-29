@@ -8,15 +8,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,11 +34,12 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    CountryCodePicker countryCodePicker;
-    TextInputLayout phoneNumber, password;
+    TextInputLayout email, password;
     RelativeLayout progressbar;
     CheckBox rememberMe;
-    TextInputEditText phoneNumberEditText, passwordEditText;
+    TextInputEditText emailEditText, passwordEditText;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +47,19 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        countryCodePicker = findViewById(R.id.login_country_code_picker);
-        phoneNumber = findViewById(R.id.login_phone_number);
+        mAuth = FirebaseAuth.getInstance();
+
+        email = findViewById(R.id.login_email);
         password = findViewById(R.id.login_password);
         progressbar = findViewById(R.id.login_progress_bar);
         rememberMe = findViewById(R.id.remember_me);
-        phoneNumberEditText = findViewById(R.id.login_phone_number_editText);
+        emailEditText = findViewById(R.id.login_email_editText);
         passwordEditText = findViewById(R.id.login_password_editText);
 
         Sessions sessionManager = new Sessions(LoginActivity.this, Sessions.SESSION_REMEMBERME);
         if (sessionManager.checkRememberMe()) {
             HashMap<String, String> rememberMeDetails = sessionManager.getRememberMeDetailsFromSession();
-            phoneNumberEditText.setText(rememberMeDetails.get(Sessions.KEY_SESSIONPHONENUMBER));
+            emailEditText.setText(rememberMeDetails.get(Sessions.KEY_SESSIONPHONENUMBER));
             passwordEditText.setText(rememberMeDetails.get(Sessions.KEY_SESSIONPASSWORD));
         }
     }
@@ -72,67 +79,27 @@ public class LoginActivity extends AppCompatActivity {
         progressbar.setVisibility(View.VISIBLE);
 
         //Get values from fields
-        String _phoneNumber = Objects.requireNonNull(phoneNumber.getEditText()).getText().toString().trim();
+        final String _email = Objects.requireNonNull(email.getEditText()).getText().toString().trim();
         final String _password = Objects.requireNonNull(password.getEditText()).getText().toString().trim();
-        if (_phoneNumber.charAt(0) == '0') {
-            _phoneNumber = _phoneNumber.substring(1);
-        } //remove 0 at the start if entered by the user
-        final String _completePhoneNumber = "+" + countryCodePicker.getFullNumber() + _phoneNumber;
 
         //Check Remember Me Button to create it's session
         if (rememberMe.isChecked()) {
             Sessions sessionManager = new Sessions(LoginActivity.this, Sessions.SESSION_REMEMBERME);
-            sessionManager.createRememberMeSession(_phoneNumber, _password);
+            sessionManager.createRememberMeSession(_email, _password);
         }
 
-        //Check whether User exists or not in database
-        Query checkUser = FirebaseDatabase.getInstance().getReference("users").orderByChild("phoneNo").equalTo(_completePhoneNumber);
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        mAuth.signInWithEmailAndPassword(_email, _password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //If Phone Number exists then get password
-                if (dataSnapshot.exists()) {
-                    phoneNumber.setError(null);
-                    phoneNumber.setErrorEnabled(false);
-                    String systemPassword = dataSnapshot.child(_completePhoneNumber).child("password").getValue(String.class);
-
-                    //if password exists and matches with users password then get other fields from database
-                    assert systemPassword != null;
-                    if (systemPassword.equals(_password)) {
-                        password.setError(null);
-                        password.setErrorEnabled(false);
-
-                        //Get users data from firebase database
-                        String _fullname = dataSnapshot.child(_completePhoneNumber).child("fullName").getValue(String.class);
-                        String _username = dataSnapshot.child(_completePhoneNumber).child("username").getValue(String.class);
-                        String _email = dataSnapshot.child(_completePhoneNumber).child("email").getValue(String.class);
-                        String _phoneNo = dataSnapshot.child(_completePhoneNumber).child("phoneNo").getValue(String.class);
-                        String _password = dataSnapshot.child(_completePhoneNumber).child("password").getValue(String.class);
-                        String _dateOfBirth = dataSnapshot.child(_completePhoneNumber).child("date").getValue(String.class);
-                        String _gender = dataSnapshot.child(_completePhoneNumber).child("gender").getValue(String.class);
-
-                        //Create a Session
-                        Sessions sessionManager = new Sessions(LoginActivity.this, Sessions.SESSION_USERSESSION);
-                        sessionManager.createLoginSession(_fullname, _username, _email, _phoneNo, _password, _dateOfBirth, _gender);
-
-                        startActivity(new Intent(getApplicationContext(), UserDashboardActivity.class));
-                        finish();
-                        progressbar.setVisibility(View.GONE);
-
-                    } else {
-                        progressbar.setVisibility(View.GONE);
-                        password.setError("Password does not match!");
-                    }
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d("Login", "signInWithEmail:success");
+                    startActivity(new Intent(getApplicationContext(), UserDashboardActivity.class));
+                    finish();
+                    progressbar.setVisibility(View.GONE);
                 } else {
                     progressbar.setVisibility(View.GONE);
-                    phoneNumber.setError("No such user exist!");
+                    password.setError("Password does not match or email not exist!");
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressbar.setVisibility(View.GONE);
-                Toast.makeText(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -160,26 +127,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateFields() {
-        String _phoneNumber = Objects.requireNonNull(phoneNumber.getEditText()).getText().toString().trim();
         String _password = Objects.requireNonNull(password.getEditText()).getText().toString().trim();
-        String checkspaces = "\\A\\w{1,20}\\z";
 
-        if (_phoneNumber.isEmpty()) {
-            phoneNumber.setError("Phone number can not be empty");
-            phoneNumber.requestFocus();
-            return false;
-        } else if (_password.isEmpty()) {
+        if (validateEmail() && !_password.isEmpty()) {
+            password.setError(null);
+            password.setErrorEnabled(false);
+            return true;
+        } else {
             password.setError("Password can not be empty");
             password.requestFocus();
             return false;
-        } else if (!_phoneNumber.matches(checkspaces)) {
-            phoneNumber.setError("No White spaces are allowed!");
+        }
+    }
+
+    private boolean validateEmail() {
+        String val = email.getEditText().getText().toString().trim();
+        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (val.isEmpty()) {
+            email.setError("Field can not be empty");
+            return false;
+        } else if (!val.matches(checkEmail)) {
+            email.setError("Invalid Email!");
             return false;
         } else {
-            phoneNumber.setError(null);
-            password.setError(null);
-            phoneNumber.setErrorEnabled(false);
-            password.setErrorEnabled(false);
+            email.setError(null);
+            email.setErrorEnabled(false);
             return true;
         }
     }

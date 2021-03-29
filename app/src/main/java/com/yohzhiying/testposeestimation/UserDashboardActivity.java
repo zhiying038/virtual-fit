@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +41,8 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
+    String userUid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +50,13 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_user_dashboard);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            Log.d("UserDashbaord", firebaseUser.toString());
+            userUid = firebaseUser.getUid();
+        }
 
-        String userPhone = firebaseUser.getPhoneNumber();
-        reference = FirebaseDatabase.getInstance().getReference().child("outfits").child(userPhone);
+
+        reference = FirebaseDatabase.getInstance().getReference().child("outfits").child(userUid);
 
         menuIcon = findViewById(R.id.menu_icon);
         drawerLayout = findViewById(R.id.drawer_layout);
