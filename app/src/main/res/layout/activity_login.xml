@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:onClick="onBackAuthStartup"
             android:src="@drawable/general_back_icon" />
 
         <TextView
@@ -27,7 +28,7 @@
             android:layout_marginTop="50dp"
             android:fontFamily="sans-serif"
             android:textStyle="bold"
-            android:text="Login"
+            android:text="@string/login"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="40sp" />

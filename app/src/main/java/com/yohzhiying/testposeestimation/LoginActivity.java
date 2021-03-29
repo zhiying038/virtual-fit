@@ -159,10 +159,16 @@ public class LoginActivity extends AppCompatActivity {
 
     public void callForgetPassword(View view) {
         startActivity(new Intent(getApplicationContext(), ForgetPasswordActivity.class));
+        finish();
     }
 
     public void callSignUpFromLogin(View view) {
         startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+        finish();
+    }
+
+    public void onBackAuthStartup(View view) {
+        startActivity(new Intent(getApplicationContext(), AuthStartUpActivity.class));
         finish();
     }
 }
