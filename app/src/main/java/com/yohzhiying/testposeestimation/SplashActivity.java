@@ -60,8 +60,7 @@ public class SplashActivity extends AppCompatActivity {
                     editor.putBoolean("firstTime", false);
                     editor.commit();
 
-//                    Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
-                    Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), AuthStartUpActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
