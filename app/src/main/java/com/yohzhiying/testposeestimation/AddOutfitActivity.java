@@ -63,7 +63,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
     TextView sensitive;
     Spinner spinner;
     TextInputLayout outfitNameField, outfitDescriptionField;
-    String categorySelected, outfitUrl, userPhone;
+    String categorySelected, outfitUrl, userUid;
     Uri outfitUri, selectedOutfit;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -180,7 +180,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
         progressDialog.setMessage("Add Outfit");
         progressDialog.show();
 
-        userPhone = user.getPhoneNumber();
+        userUid = user.getUid();
 
         if (!validateFields()) {
             return;
@@ -193,7 +193,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
         outfitUri = selectedOutfit;
 
         if (outfitUri != null && bitmap != null) {
-            final StorageReference imageRef = storageReference.child("images/" + userPhone + "/" + System.currentTimeMillis() + getFileExtension(outfitUri));
+            final StorageReference imageRef = storageReference.child("images/" + userUid + "/" + System.currentTimeMillis() + getFileExtension(outfitUri));
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -228,7 +228,7 @@ public class AddOutfitActivity extends AppCompatActivity implements AdapterView.
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("outfits");
 
                                 Outfit addOutfitHelper = new Outfit(outfitCategory, outfitName, outfitUrl, outfitDescription);
-                                reference.child(userPhone).push().setValue(addOutfitHelper);
+                                reference.child(userUid).push().setValue(addOutfitHelper);
 
                                 progressDialog.dismiss();
                                 startActivity(new Intent(AddOutfitActivity.this, UserDashboardActivity.class));
