@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +31,9 @@ public class RateUsActivity extends AppCompatActivity implements NavigationView.
     LinearLayout contentView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    String phoneNo;
+    String userUid;
+
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,9 @@ public class RateUsActivity extends AppCompatActivity implements NavigationView.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_rate_us);
 
-        phoneNo = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        userUid = user.getUid();
         menuIcon = findViewById(R.id.menu_icon);
         contentView = findViewById(R.id.content);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -46,7 +51,7 @@ public class RateUsActivity extends AppCompatActivity implements NavigationView.
         ratingBar = findViewById(R.id.rating_bar);
 
         navigationDrawer();
-        rateNow(phoneNo);
+        rateNow(userUid);
     }
 
     public void rateNow(final String phoneNo) {
