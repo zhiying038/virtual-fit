@@ -26,14 +26,11 @@ public class DrawView extends View {
     private int mImgHeight = 0;
     private Paint mPaint = new Paint();
 
-    private static final String TAG = "DrawView";
-
     //Constructors
     public DrawView(Context context){ super(context); }
     public DrawView(Context context, AttributeSet attrs){ super(context,attrs); }
     public DrawView(Context context, AttributeSet attrs, int defStyleAttr)
     { super(context,attrs,defStyleAttr); }
-
 
     public void setImgSize(int width, int height) {
         mImgWidth = width;
@@ -63,7 +60,6 @@ public class DrawView extends View {
         mRatioHeight = height;
         requestLayout();
     }
-
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -107,21 +103,10 @@ public class DrawView extends View {
         Rect rect_short = new Rect(short_left,short_top,short_right,short_bottom);
 
         Rect dst_rect = rect_top;
-        if(currentOutfit.getOutfitCategory().equals("Top")) {
-            dst_rect = rect_top;
-        }
-
-        if(currentOutfit.getOutfitCategory().equals("Long Wears")) {
-            dst_rect = rect_long;
-        }
-
-        if(currentOutfit.getOutfitCategory().equals("Trousers")) {
-            dst_rect = rect_trousers;
-        }
-
-        if(currentOutfit.getOutfitCategory().equals("Shorts & Skirts")) {
-            dst_rect = rect_short;
-        }
+        if(currentOutfit.getOutfitCategory().equals("Top")){dst_rect = rect_top;}
+        if(currentOutfit.getOutfitCategory().equals("Long Wears")){dst_rect = rect_long;}
+        if(currentOutfit.getOutfitCategory().equals("Trousers")){dst_rect = rect_trousers;}
+        if(currentOutfit.getOutfitCategory().equals("Shorts & Skirts")){dst_rect = rect_short;}
 
         canvas.drawBitmap(outfit_bmp, null, dst_rect, null);
     }
@@ -155,8 +140,10 @@ public class DrawView extends View {
     }
 
     //Convert a dip value into a float
-    private float dipToFloat(float val) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val,
+    private float dipToFloat(float val)
+    {
+        float dip_val =  TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val,
                 getContext().getResources().getDisplayMetrics());
-    }
+        return dip_val;
+    }//end dipToFloat
 }
