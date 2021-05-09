@@ -4,6 +4,8 @@ Steps to run the application:
 
 2. Login using the credential below or create a new account.
 
+3. Have fun using the application.
+
 Credential:
 email: zhiying038@gmail.com
 password: abcd123
